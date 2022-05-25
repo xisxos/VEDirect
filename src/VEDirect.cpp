@@ -10,23 +10,37 @@
 VEDirect::VEDirect(HardwareSerial &serial, receiveCallback receive)
     : serialPort{serial}, rxCallback{receive} {};
 
-void VEDirect::begin() {
-  serialPort.begin(VEDirect_kBaud);
+void VEDirect::begin(int8_t rxPin, int8_t txPin, uint32_t config)
+
+{
+  if (rxPin && txPin)
+  {
+    serialPort.begin(VEDirect_kBaud, config, rxPin, txPin);
+  }
+  else
+  {
+    serialPort.begin(VEDirect_kBaud);
+  }
   rxBuffer.size = 0;
 }
 
-void VEDirect::update() {
-  while (serialPort.available() > 0) {
+void VEDirect::update()
+{
+  while (serialPort.available() > 0)
+  {
     char rxData = serialPort.read();
     uint8_t rxCount = ved_deframe(&rxBuffer, rxData);
-    if (rxCount > 0) {
+    if (rxCount > 0)
+    {
       rxBuffer.size = 0;
       uint8_t command = ved_getCommand(&rxBuffer);
       if ((command == VEDirect_kGetCommand) ||
           (command == VEDirect_kSetCommand) ||
-          (command == VEDirect_kAsyncCommand)) {
+          (command == VEDirect_kAsyncCommand))
+      {
         uint16_t id = ved_getId(&rxBuffer);
-        switch (id) {
+        switch (id)
+        {
         case VEDirect_kPanelPower:
           rxCallback(id, ved_getU32(&rxBuffer));
           break;
@@ -47,11 +61,13 @@ void VEDirect::update() {
   }
 }
 
-size_t VEDirect::set(uint16_t id, int32_t value) {
+size_t VEDirect::set(uint16_t id, int32_t value)
+{
   ved_t txBuffer;
   ved_setCommand(&txBuffer, VEDirect_kSetCommand);
   ved_setId(&txBuffer, id);
-  switch (id) {
+  switch (id)
+  {
   case VEDirect_kBatterySense:
   case VEDirect_VoltageSetpoint:
   case VEDirect_CurrentLimit:
@@ -67,7 +83,8 @@ size_t VEDirect::set(uint16_t id, int32_t value) {
   return serialPort.write(txBuffer.data, txBuffer.size);
 }
 
-size_t VEDirect::get(uint16_t id){
+size_t VEDirect::get(uint16_t id)
+{
   ved_t txBuffer;
   ved_setCommand(&txBuffer, VEDirect_kGetCommand);
   ved_setId(&txBuffer, id);
@@ -75,14 +92,16 @@ size_t VEDirect::get(uint16_t id){
   return serialPort.write(txBuffer.data, txBuffer.size);
 }
 
-size_t VEDirect::ping() {
+size_t VEDirect::ping()
+{
   ved_t txBuffer;
   ved_setCommand(&txBuffer, VEDirect_kPingCommand);
   ved_enframe(&txBuffer);
   return serialPort.write(txBuffer.data, txBuffer.size);
 }
 
-size_t VEDirect::restart() {
+size_t VEDirect::restart()
+{
   ved_t txBuffer;
   ved_setCommand(&txBuffer, VEDirect_kRestartCommand);
   ved_enframe(&txBuffer);
