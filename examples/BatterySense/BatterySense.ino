@@ -15,28 +15,34 @@ VEDirect mppt(Serial1, mpptCallback);
 uint16_t panelVoltage = 0;
 uint16_t chargeCurrent = 0;
 
-void setup() {
+void setup()
+{
   Serial.begin(19200);
   mppt.begin();
 }
 
-void loop() {
+void loop()
+{
   static unsigned long secondsTimer = 0;
   mppt.update();
   unsigned long m = millis();
-  if(m - secondsTimer > 1000L){
+  if (m - secondsTimer > 1000L)
+  {
     secondsTimer = m;
-    mppt.ping();  // send ping every second
+    mppt.ping(); // send ping every second
   }
 }
 
-void mpptCallback(uint16_t id, int32_t value) {
-  if (id == VEDirect_kPanelVoltage){
+void mpptCallback(uint16_t id, int32_t value)
+{
+  if (id == VEDirect_kPanelVoltage)
+  {
     panelVoltage = value;
     Serial.print(F("Vpv : "));
     Serial.println(value * 0.01);
   }
-  if (id == VEDirect_kChargeCurrent){
+  if (id == VEDirect_kChargeCurrent)
+  {
     chargeCurrent = value;
     Serial.print(F("Ich : "));
     Serial.println(value * 0.1);
