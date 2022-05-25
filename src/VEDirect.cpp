@@ -46,8 +46,8 @@ void VEDirect::update()
           break;
         case VEDirect_kPanelVoltage:
         case VEDirect_kPanelCurrent:
-        case VEDirect_kChargeVoltage:
-        case VEDirect_kChargeCurrent:
+        case VEDirect_kChargerVoltage:
+        case VEDirect_kChargerCurrent:
           rxCallback(id, ved_getU16(&rxBuffer));
           break;
         case VEDirect_kDeviceState:
