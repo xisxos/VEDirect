@@ -21,6 +21,10 @@ extern "C"
 
   uint8_t ved_getCommand(ved_t *vedata);
   uint16_t ved_getId(ved_t *vedata);
+
+  int32_t ved_getI16(ved_t *vedata);
+  int32_t ved_getI32(ved_t *vedata);
+
   int32_t ved_getU8(ved_t *vedata);
   int32_t ved_getU16(ved_t *vedata);
   int32_t ved_getU32(ved_t *vedata);
