@@ -8,7 +8,7 @@ extern "C"
 {
 #endif
 
-#define ved_kBufferSize (32)
+#define ved_kBufferSize (42)
 
   typedef struct
   {
@@ -25,7 +25,7 @@ extern "C"
   int32_t ved_getI16(ved_t *vedata);
   int32_t ved_getI32(ved_t *vedata);
 
-  int32_t ved_getU8(ved_t *vedata);
+  uint8_t ved_getU8(ved_t *vedata);
   int32_t ved_getU16(ved_t *vedata);
   int32_t ved_getU32(ved_t *vedata);
 

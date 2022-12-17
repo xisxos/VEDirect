@@ -97,11 +97,10 @@ int32_t ved_getI16(ved_t *vedata)
 {
   return (((int32_t)vedata->data[5]) << 8) + (int32_t)vedata->data[4];
 }
-int32_t ved_getI32(ved_t *vedata) {}
 
-int32_t ved_getU8(ved_t *vedata)
+uint8_t ved_getU8(ved_t *vedata)
 {
-  return (uint32_t)vedata->data[4];
+  return (uint8_t)vedata->data[4];
 }
 
 int32_t ved_getU16(ved_t *vedata)

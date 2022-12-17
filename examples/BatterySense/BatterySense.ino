@@ -43,7 +43,7 @@ void mpptCallback(uint16_t id, int32_t value)
     Serial.print(F("Vpv : "));
     Serial.println(value * 0.01);
   }
-  if (id == VEDirect_kChargeCurrent)
+  if (id == VEDirect_kChargerCurrent)
   {
     chargeCurrent = value;
     Serial.print(F("Ich : "));
